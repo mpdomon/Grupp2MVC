@@ -16,6 +16,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 //Console.WriteLine("My name is Maria.");
+Console.WriteLine("namaste, mero nama Mattias ho");
 app.UseRouting();
 
 app.UseAuthorization();
@@ -25,3 +26,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+// bla bla lba /Martin
