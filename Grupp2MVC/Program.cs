@@ -20,7 +20,7 @@ Console.WriteLine("namaste, mero nama Mattias ho. ho ho.  ");
 app.UseRouting();
 
 app.UseAuthorization();
-
+Console.WriteLine("so it begins");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
