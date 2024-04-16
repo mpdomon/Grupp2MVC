@@ -15,7 +15,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+//Console.WriteLine("My name is Maria.");
+Console.WriteLine("namaste, mero nama Mattias ho");
 app.UseRouting();
 
 app.UseAuthorization();
