@@ -15,16 +15,12 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-//Console.WriteLine("My name is Maria.");
-Console.WriteLine("namaste, mero nama Mattias ho. ho ho.  ");
 app.UseRouting();
 
 app.UseAuthorization();
-Console.WriteLine("so it begins");
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-
-// bla bla lba /Martin
