@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Grupp2MVC.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<Grupp2MVCContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Grupp2MVCContext") ?? throw new InvalidOperationException("Connection string 'Grupp2MVCContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
