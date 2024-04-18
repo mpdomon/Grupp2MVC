@@ -1,0 +1,47 @@
+﻿@model ReceiptViewModel
+
+<h1>Parking Receipt</h1>
+
+<div>
+    <h4>Parking Information</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TimeOfArrival)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TimeOfArrival)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TimeOfDeparture)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TimeOfDeparture)
+        </dd>
+    </dl>
+    <h4>Vehicle Information</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.RegistrationNumber)
+        </dt>
+        <dt class="col-sm-10">
+            @Html.DisplayFor(model => model.RegistrationNumber)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Model)
+        </dt>
+        <dt class="col-sm-10">
+            @Html.DisplayFor(model => model.Model)
+        </dt>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Make)
+        </dt>
+        <dt class="col-sm-10">
+            @Html.DisplayFor(model => model.Make)
+        </dt>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
