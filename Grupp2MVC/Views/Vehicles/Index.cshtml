@@ -9,6 +9,20 @@
 <p>
     <a asp-action="Create">Park a new vehicle</a>
 </p>
+
+¨<form asp-action="Filter" method="get">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="RegistrationNumber" />
+        <div class="input-group-append">
+            <select class="form-control" name="VehicleType" asp-items="@Html.GetEnumSelectList<VehicleType>()">
+                <option selected="selected" value="">Please select</option>
+            </select>
+        </div>
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search">&emsp;Search</i></button>
+        </div>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
