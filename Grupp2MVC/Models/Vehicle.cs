@@ -15,5 +15,6 @@ namespace Grupp2MVC.Models
         [Range(0,10)]
         public int AmountOfWheels { get; set; }
         public DateTime TimeOfArrival { get; set; }
+        public DateTime? TimeOfDeparture { get; set; }
     }
 }
