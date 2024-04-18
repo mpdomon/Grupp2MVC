@@ -1,12 +1,12 @@
 ﻿@model Grupp2MVC.Models.Vehicle
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Check out";
 }
 
-<h1>Delete</h1>
+<h1>Check out</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Is this the vehicle you'd like to check out from the garage?</h3>
 <div>
     <h4>Vehicle</h4>
     <hr />
@@ -57,7 +57,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <input type="submit" value="Check out" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>
 </div>

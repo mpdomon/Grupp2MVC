@@ -25,6 +25,20 @@ namespace Grupp2MVC.Controllers
             return View(await _context.Vehicle.ToListAsync());
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Filter(string registrationNumber, int? vehicleType)
+        {
+            var model = string.IsNullOrWhiteSpace(registrationNumber) ?
+                _context.Vehicle :
+                _context.Vehicle.Where(m => m.RegistrationNumber.Contains(registrationNumber));
+
+            model = vehicleType is null ?
+                model :
+                model.Where(m => (int)m.VehicleType == vehicleType);
+
+            return View(nameof(Index), await model.ToListAsync());
+        }
+
         // GET: Vehicles/Details/5
         public async Task<IActionResult> Details(int? id)
         {

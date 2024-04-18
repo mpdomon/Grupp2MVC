@@ -1,14 +1,28 @@
 ﻿@model IEnumerable<Grupp2MVC.Models.Vehicle>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Garage details";
 }
 
-<h1>Index</h1>
+<h1>Garage details</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Park a new vehicle</a>
 </p>
+
+¨<form asp-action="Filter" method="get">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="RegistrationNumber" />
+        <div class="input-group-append">
+            <select class="form-control" name="VehicleType" asp-items="@Html.GetEnumSelectList<VehicleType>()">
+                <option selected="selected" value="">Please select</option>
+            </select>
+        </div>
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search">&emsp;Search</i></button>
+        </div>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -63,7 +77,7 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Check out</a>
             </td>
         </tr>
 }
