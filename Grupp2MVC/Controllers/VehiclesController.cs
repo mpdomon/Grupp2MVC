@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Grupp2MVC.Data;
 using Grupp2MVC.Models;
+using Grupp2MVC.ViewModels;
 
 namespace Grupp2MVC.Controllers
 {
@@ -154,12 +155,27 @@ namespace Grupp2MVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vehicle = await _context.Vehicle.FindAsync(id);
+            var receiptViewModel = new ReceiptViewModel();
+
             if (vehicle != null)
             {
+                var timeOfDeparture = DateTime.Now;
+
+                receiptViewModel.RegistrationNumber = vehicle.RegistrationNumber;
+                receiptViewModel.Make = vehicle.Make;
+                receiptViewModel.Model = vehicle.Model;
+                receiptViewModel.TimeOfArrival = vehicle.TimeOfArrival;
+                receiptViewModel.TimeOfDeparture = timeOfDeparture;
+                receiptViewModel.Price = receiptViewModel.CalculateParkingPrice(vehicle.TimeOfArrival, timeOfDeparture);
+
                 _context.Vehicle.Remove(vehicle);
+
+                await _context.SaveChangesAsync();
+
+                if (receiptViewModel.Price > 0)
+                    return View("Receipt", receiptViewModel);
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
