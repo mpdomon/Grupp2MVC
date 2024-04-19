@@ -4,6 +4,7 @@ using Grupp2MVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Grupp2MVC.Migrations
 {
     [DbContext(typeof(Grupp2MVCContext))]
-    partial class Grupp2MVCContextModelSnapshot : ModelSnapshot
+    [Migration("20240419132051_AddUniqueConstraintToRegistrationNumber")]
+    partial class AddUniqueConstraintToRegistrationNumber
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,33 +24,6 @@ namespace Grupp2MVC.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Grupp2MVC.Models.Receipt", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("TimeOfArrival")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("TimeOfDeparture")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("VehicleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("VehicleId");
-
-                    b.ToTable("Receipts");
-                });
 
             modelBuilder.Entity("Grupp2MVC.Models.Vehicle", b =>
                 {
@@ -93,17 +69,6 @@ namespace Grupp2MVC.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Vehicle");
-                });
-
-            modelBuilder.Entity("Grupp2MVC.Models.Receipt", b =>
-                {
-                    b.HasOne("Grupp2MVC.Models.Vehicle", "Vehicle")
-                        .WithMany()
-                        .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Vehicle");
                 });
 #pragma warning restore 612, 618
         }

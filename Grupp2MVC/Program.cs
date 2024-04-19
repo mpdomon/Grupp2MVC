@@ -26,6 +26,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Vehicles}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}"); //Needs to be home or it'll change the vehicles/index to the start page.
 
 app.Run();

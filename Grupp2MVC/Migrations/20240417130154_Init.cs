@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -8,6 +9,8 @@ namespace Grupp2MVC.Migrations
     /// <inheritdoc />
     public partial class Init : Migration
     {
+
+
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,7 +26,8 @@ namespace Grupp2MVC.Migrations
                     Make = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Model = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     AmountOfWheels = table.Column<int>(type: "int", nullable: false),
-                    TimeOfArrival = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    TimeOfArrival = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsParked = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {

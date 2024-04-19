@@ -73,6 +73,9 @@ namespace Grupp2MVC.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                vehicle.IsParked = true;
+
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -169,6 +172,9 @@ namespace Grupp2MVC.Controllers
                 };
 
                 _context.Receipts.Add(receipt);
+
+                //Changed to park status instead of deleting.
+                vehicle.IsParked = false;
 
                 await _context.SaveChangesAsync();
 

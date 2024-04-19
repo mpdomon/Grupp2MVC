@@ -42,7 +42,7 @@
                 @Html.DisplayNameFor(model => model.Model)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AmountOfWheels)
+                @Html.DisplayNameFor(model => model.IsParked)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.TimeOfArrival)
@@ -69,7 +69,14 @@
                 @Html.DisplayFor(modelItem => item.Model)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AmountOfWheels)
+                    @if (item.IsParked)
+                    {
+                        <text>Parking</text>
+                    }
+                    else
+                    {
+                        <text>Checked out</text>
+                    }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TimeOfArrival)
