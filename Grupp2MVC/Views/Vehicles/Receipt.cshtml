@@ -1,5 +1,9 @@
 ﻿@model ReceiptViewModel
 
+@{
+    var date = DateTime.Now.ToString("yyyy/m/d");
+}
+
 <h1>Parking Receipt</h1>
 
 <div>
@@ -10,16 +14,16 @@
             Date:
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TimeOfDeparture)
+            @date
         </dd>
         <dt class="col-sm-2">
-            From:
+            @Html.DisplayNameFor(model => model.TimeOfArrival)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TimeOfArrival)
         </dd>
         <dt class="col-sm-2">
-            To:
+            @Html.DisplayNameFor(model => model.TimeOfDeparture)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TimeOfDeparture)
@@ -31,21 +35,31 @@
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.RegistrationNumber)
         </dt>
-        <dt class="col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RegistrationNumber)
-        </dt>
+        </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Model)
         </dt>
-        <dt class="col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Model)
-        </dt>
+        </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Make)
         </dt>
-        <dt class="col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Make)
+        </dd>
+    </dl>
+    <h4>Billing information</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            <h3>@Html.DisplayNameFor(model => model.Price)</h3>
         </dt>
+        <dd class="col-sm-10">
+            <h3>@Html.DisplayFor(model => model.Price)</h3>
+        </dd>
     </dl>
 </div>
 <div>

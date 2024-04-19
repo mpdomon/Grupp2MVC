@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Grupp2MVC.Data;
 using Grupp2MVC.Models;
-using Grupp2MVC.ViewModels;
+using Grupp2MVC.Models.ViewModels;
 
 namespace Grupp2MVC.Controllers
 {
@@ -167,7 +167,7 @@ namespace Grupp2MVC.Controllers
                     TimeOfDeparture = timeOfDeparture,
                     Price = CalculateParkingPrice(vehicle.TimeOfArrival, timeOfDeparture)
                 };
-                
+
                 _context.Receipts.Add(receipt);
 
                 await _context.SaveChangesAsync();
@@ -179,13 +179,10 @@ namespace Grupp2MVC.Controllers
                     Model = vehicle.Model,
                     TimeOfArrival = vehicle.TimeOfArrival,
                     TimeOfDeparture = timeOfDeparture,
-                    Price = CalculateParkingPrice(vehicle.TimeOfArrival, timeOfDeparture)
+                    Price = receipt.Price
                 };
 
-                //await _context.SaveChangesAsync();
-
-                if (receipt.Price > 0)
-                    return View("Receipt", receiptViewModel);
+                return View("Receipt", receiptViewModel);
             }
 
             return RedirectToAction(nameof(Index));
