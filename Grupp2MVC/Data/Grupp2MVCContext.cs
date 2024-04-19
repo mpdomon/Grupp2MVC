@@ -15,5 +15,6 @@ namespace Grupp2MVC.Data
         }
 
         public DbSet<Grupp2MVC.Models.Vehicle> Vehicle { get; set; } = default!;
+        public DbSet<Receipt> Receipts { get; set; } = default!;
     }
 }
