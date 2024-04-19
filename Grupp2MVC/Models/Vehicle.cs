@@ -22,5 +22,9 @@ namespace Grupp2MVC.Models
         public DateTime TimeOfArrival { get; set; }
         [DisplayName("Departure")]
         public DateTime? TimeOfDeparture { get; set; }
+
+        [DisplayName("Parking status")]
+        public bool IsParked { get; set; }
+        
     }
 }
