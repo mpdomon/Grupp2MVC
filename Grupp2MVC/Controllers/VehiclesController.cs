@@ -155,24 +155,36 @@ namespace Grupp2MVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vehicle = await _context.Vehicle.FindAsync(id);
-            var receiptViewModel = new ReceiptViewModel();
 
             if (vehicle != null)
             {
+                //Todo: move to other function?
                 var timeOfDeparture = DateTime.Now;
-
-                receiptViewModel.RegistrationNumber = vehicle.RegistrationNumber;
-                receiptViewModel.Make = vehicle.Make;
-                receiptViewModel.Model = vehicle.Model;
-                receiptViewModel.TimeOfArrival = vehicle.TimeOfArrival;
-                receiptViewModel.TimeOfDeparture = timeOfDeparture;
-                receiptViewModel.Price = receiptViewModel.CalculateParkingPrice(vehicle.TimeOfArrival, timeOfDeparture);
-
-                _context.Vehicle.Remove(vehicle);
+                var receipt = new Receipt
+                {
+                    VehicleId = vehicle.Id,
+                    TimeOfArrival = vehicle.TimeOfArrival,
+                    TimeOfDeparture = timeOfDeparture,
+                    Price = CalculateParkingPrice(vehicle.TimeOfArrival, timeOfDeparture)
+                };
+                
+                _context.Receipts.Add(receipt);
 
                 await _context.SaveChangesAsync();
 
-                if (receiptViewModel.Price > 0)
+                var receiptViewModel = new ReceiptViewModel
+                {
+                    RegistrationNumber = vehicle.RegistrationNumber,
+                    Make = vehicle.Make,
+                    Model = vehicle.Model,
+                    TimeOfArrival = vehicle.TimeOfArrival,
+                    TimeOfDeparture = timeOfDeparture,
+                    Price = CalculateParkingPrice(vehicle.TimeOfArrival, timeOfDeparture)
+                };
+
+                //await _context.SaveChangesAsync();
+
+                if (receipt.Price > 0)
                     return View("Receipt", receiptViewModel);
             }
 
@@ -182,6 +194,14 @@ namespace Grupp2MVC.Controllers
         private bool VehicleExists(int id)
         {
             return _context.Vehicle.Any(e => e.Id == id);
+        }
+
+        private double CalculateParkingPrice(DateTime timeOfArrival, DateTime timeOfDeparture)
+        {
+            double hourlyRate = 0.75;
+
+            var timeDifference = timeOfDeparture - timeOfArrival;
+            return hourlyRate * Math.Round((double)timeDifference.TotalSeconds / 3600, 0);
         }
     }
 }

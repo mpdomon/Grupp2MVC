@@ -7,13 +7,19 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TimeOfArrival)
+            Date:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TimeOfDeparture)
+        </dd>
+        <dt class="col-sm-2">
+            From:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TimeOfArrival)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TimeOfDeparture)
+            To:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.TimeOfDeparture)
