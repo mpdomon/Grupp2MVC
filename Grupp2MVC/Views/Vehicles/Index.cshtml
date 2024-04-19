@@ -82,9 +82,17 @@
                 @Html.DisplayFor(modelItem => item.TimeOfArrival)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Check out</a>
+                    <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    @if (item.IsParked)
+                    {
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Check out</a>
+                    } else
+                    {
+                        <form class="d-inline" asp-action="ParkAgain" asp-route-id="@item.Id" method="post">
+                            <button type="submit" class="btn btn-info">Park</button>
+                        </form>
+                    }
             </td>
         </tr>
 }

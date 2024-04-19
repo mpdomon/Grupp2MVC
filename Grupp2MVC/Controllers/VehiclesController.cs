@@ -194,6 +194,24 @@ namespace Grupp2MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ParkAgain(int id)
+        {
+            var vehicle = await _context.Vehicle.FindAsync(id);
+
+            if (vehicle == null)
+            {
+                return NotFound();
+            }
+            vehicle.TimeOfArrival = DateTime.Now;
+            vehicle.IsParked = true;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
         private bool VehicleExists(int id)
         {
             return _context.Vehicle.Any(e => e.Id == id);
