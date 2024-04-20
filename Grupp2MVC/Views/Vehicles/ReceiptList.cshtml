@@ -1,21 +1,21 @@
-﻿@model IEnumerable<ReceiptViewModel>
+﻿@model ReceiptListViewModel
 
 <h1>Receipts</h1>
 
 <table class="table">
     <thead>
         <th>
-            @Html.DisplayNameFor(model => model.TimeOfArrival)
+            From
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TimeOfDeparture)
+            To
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Price)
+            Paid
         </th>
     </thead>
     <tbody>
-@foreach (var item in Model)
+@foreach (var item in Model.Receipts)
 {
     <tr>
         <td>
@@ -31,3 +31,6 @@
 }
     </tbody>
 </table>
+<div>
+    <a asp-action="Details" asp-route-id="@Model.VehicleId">Back to details</a>
+</div>

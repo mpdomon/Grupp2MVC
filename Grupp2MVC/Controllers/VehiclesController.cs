@@ -213,9 +213,9 @@ namespace Grupp2MVC.Controllers
         }
 
         [ActionName("ReceiptList")]
-        public async Task<IActionResult> ReceiptList(int VehicleId)
+        public async Task<IActionResult> ReceiptList(int vehicleId)
         {
-            var receipts = await _context.Receipts.Where(r => r.VehicleId == VehicleId)
+            var receipts = await _context.Receipts.Where(r => r.VehicleId == vehicleId)
                 .Select(r => new ReceiptViewModel
                 {
                     Price = r.Price,
@@ -223,7 +223,13 @@ namespace Grupp2MVC.Controllers
                     TimeOfDeparture = r.TimeOfDeparture
                 }).ToListAsync();
 
-            return View(receipts);
+            var model = new ReceiptListViewModel
+            {
+                VehicleId = vehicleId,
+                Receipts = receipts
+            };
+
+            return View(model);
         }
 
         private bool VehicleExists(int id)
