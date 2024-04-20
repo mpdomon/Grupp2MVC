@@ -73,7 +73,7 @@ namespace Grupp2MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                vehicle.TimeOfArrival = DateTime.Now;
                 vehicle.IsParked = true;
 
                 _context.Add(vehicle);
@@ -212,6 +212,20 @@ namespace Grupp2MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [ActionName("ReceiptList")]
+        public async Task<IActionResult> ReceiptList(int VehicleId)
+        {
+            var receipts = await _context.Receipts.Where(r => r.VehicleId == VehicleId)
+                .Select(r => new ReceiptViewModel
+                {
+                    Price = r.Price,
+                    TimeOfArrival = r.TimeOfArrival,
+                    TimeOfDeparture = r.TimeOfDeparture
+                }).ToListAsync();
+
+            return View(receipts);
+        }
+
         private bool VehicleExists(int id)
         {
             return _context.Vehicle.Any(e => e.Id == id);
@@ -219,7 +233,7 @@ namespace Grupp2MVC.Controllers
 
         private double CalculateParkingPrice(DateTime timeOfArrival, DateTime timeOfDeparture)
         {
-            double hourlyRate = 0.75;
+            double hourlyRate = 7.5;
 
             var timeDifference = timeOfDeparture - timeOfArrival;
             return hourlyRate * Math.Round((double)timeDifference.TotalSeconds / 3600, 0);

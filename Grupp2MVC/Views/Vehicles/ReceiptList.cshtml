@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ReceiptViewModel>
+
+<h1>Receipts</h1>
+
+<table class="table">
+    <thead>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeOfArrival)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeOfDeparture)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeOfArrival)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeOfDeparture)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+    </tr>
+}
+    </tbody>
+</table>
