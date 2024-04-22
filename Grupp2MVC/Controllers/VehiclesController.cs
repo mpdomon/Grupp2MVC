@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Grupp2MVC.Data;
 using Grupp2MVC.Models;
 using Grupp2MVC.Models.ViewModels;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Grupp2MVC.Controllers
 {
@@ -76,7 +77,12 @@ namespace Grupp2MVC.Controllers
                 vehicle.TimeOfArrival = DateTime.Now;
                 vehicle.IsParked = true;
 
-                _context.Add(vehicle);
+                var v = _context.Vehicle.Where(m => m.RegistrationNumber.Equals(vehicle.RegistrationNumber));
+                if (v.IsNullOrEmpty())
+                {
+                    _context.Add(vehicle);
+                }
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
