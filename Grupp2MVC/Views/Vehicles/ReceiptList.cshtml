@@ -1,0 +1,36 @@
+﻿@model ReceiptListViewModel
+
+<h1>Receipts</h1>
+
+<table class="table">
+    <thead>
+        <th>
+            From
+        </th>
+        <th>
+            To
+        </th>
+        <th>
+            Paid
+        </th>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Receipts)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeOfArrival)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeOfDeparture)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+    </tr>
+}
+    </tbody>
+</table>
+<div>
+    <a asp-action="Details" asp-route-id="@Model.VehicleId">Back to details</a>
+</div>
