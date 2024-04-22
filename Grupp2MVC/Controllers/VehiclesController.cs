@@ -77,10 +77,18 @@ namespace Grupp2MVC.Controllers
                 vehicle.TimeOfArrival = DateTime.Now;
                 vehicle.IsParked = true;
 
+                var CountOfParked = _context.Vehicle.Where(v => v.IsParked).Count();
+                if (CountOfParked >= 10) {
+                    return Content("Parking spaces are full");
+                }
+
                 var v = _context.Vehicle.Where(m => m.RegistrationNumber.Equals(vehicle.RegistrationNumber));
                 if (v.IsNullOrEmpty())
                 {
                     _context.Add(vehicle);
+                }
+                else {
+                    return Content("Vehicle already registered");
                 }
 
                 await _context.SaveChangesAsync();
