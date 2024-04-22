@@ -25,6 +25,7 @@ namespace Grupp2MVC.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Vehicle.ToListAsync());
+
         }
 
         [HttpGet]
@@ -39,6 +40,11 @@ namespace Grupp2MVC.Controllers
                 model.Where(m => (int)m.VehicleType == vehicleType);
 
             return View(nameof(Index), await model.ToListAsync());
+        }
+
+        public IActionResult Parking()
+        {
+            return View();
         }
 
         // GET: Vehicles/Details/5
@@ -250,5 +256,10 @@ namespace Grupp2MVC.Controllers
             var timeDifference = timeOfDeparture - timeOfArrival;
             return hourlyRate * Math.Round((double)timeDifference.TotalSeconds / 3600, 0);
         }
+        public async Task<int> GetParkedVehicleCount()
+        {
+            return await _context.Vehicle.CountAsync(v => v.IsParked);
+        }
+
     }
 }

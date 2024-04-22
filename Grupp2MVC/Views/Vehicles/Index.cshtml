@@ -4,13 +4,10 @@
     ViewData["Title"] = "Garage details";
 }
 
-<h1>Garage details</h1>
+<h1>Garage search</h1>
+<h4>Please click "Park" to park your vehicle again or "Check out" to leave</h4>
 
-<p>
-    <a asp-action="Create">Park a new vehicle</a>
-</p>
-
-¨<form asp-action="Filter" method="get">
+<form asp-action="Filter" method="get">
     <div class="input-group mb-3">
         <input type="text" class="form-control" name="RegistrationNumber" />
         <div class="input-group-append">
