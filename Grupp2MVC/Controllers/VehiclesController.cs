@@ -95,7 +95,19 @@ namespace Grupp2MVC.Controllers
                     _context.Add(vehicle);
                 }
               
-                await _context.SaveChangesAsync();
+                var result = await _context.SaveChangesAsync();
+                if (result > 0)
+                {
+                    var receipt = new Receipt
+                    {
+                        VehicleId = vehicle.Id,
+                        TimeOfArrival = vehicle.TimeOfArrival
+                    };
+
+                    _context.Add(receipt);
+                    await _context.SaveChangesAsync();
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(vehicle);
@@ -179,20 +191,15 @@ namespace Grupp2MVC.Controllers
 
             if (vehicle != null)
             {
-                //Todo: move to other function?
-                var timeOfDeparture = DateTime.Now;
-                var receipt = new Receipt
-                {
-                    VehicleId = vehicle.Id,
-                    TimeOfArrival = vehicle.TimeOfArrival,
-                    TimeOfDeparture = timeOfDeparture,
-                    Price = CalculateParkingPrice(vehicle.TimeOfArrival, timeOfDeparture)
-                };
-
-                _context.Receipts.Add(receipt);
-
                 //Changed to park status instead of deleting.
                 vehicle.IsParked = false;
+
+                //Todo: move to other function
+                var timeOfDeparture = DateTime.Now;
+                var receipt = await _context.Receipts.FirstOrDefaultAsync(r => r.VehicleId == id);
+                //Todo: add possible null reference handling
+                receipt.TimeOfDeparture = timeOfDeparture;
+                receipt.Price = CalculateParkingPrice(vehicle.TimeOfArrival, timeOfDeparture);
 
                 await _context.SaveChangesAsync();
 
@@ -203,7 +210,7 @@ namespace Grupp2MVC.Controllers
                     Model = vehicle.Model,
                     TimeOfArrival = vehicle.TimeOfArrival,
                     TimeOfDeparture = timeOfDeparture,
-                    Price = receipt.Price
+                    Price = (double)receipt.Price
                 };
 
                 return View("Receipt", receiptViewModel);
@@ -236,7 +243,7 @@ namespace Grupp2MVC.Controllers
             var receipts = await _context.Receipts.Where(r => r.VehicleId == vehicleId)
                 .Select(r => new ReceiptViewModel
                 {
-                    Price = r.Price,
+                    Price = (r.TimeOfDeparture != null) ? (double)r.Price : CalculateParkingPrice(r.TimeOfArrival, r.TimeOfDeparture),
                     TimeOfArrival = r.TimeOfArrival,
                     TimeOfDeparture = r.TimeOfDeparture
                 }).ToListAsync();
@@ -255,12 +262,17 @@ namespace Grupp2MVC.Controllers
             return _context.Vehicle.Any(e => e.Id == id);
         }
 
-        private double CalculateParkingPrice(DateTime timeOfArrival, DateTime timeOfDeparture)
+        private static double CalculateParkingPrice(DateTime timeOfArrival, DateTime? timeOfDeparture)
         {
             double hourlyRate = 7.5;
+            var timeDifference = new TimeSpan();
 
-            var timeDifference = timeOfDeparture - timeOfArrival;
-            return hourlyRate * Math.Round((double)timeDifference.TotalSeconds / 3600, 0);
+            if (timeOfDeparture != null)
+                timeDifference = (DateTime)timeOfDeparture - timeOfArrival;
+            else
+                timeDifference = DateTime.Now - timeOfArrival;
+            
+            return hourlyRate * Math.Round((double)timeDifference.TotalSeconds / 3600, MidpointRounding.ToZero);
         }
         public async Task<int> GetParkedVehicleCount()
         {

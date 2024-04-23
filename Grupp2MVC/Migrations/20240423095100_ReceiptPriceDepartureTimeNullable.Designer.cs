@@ -4,6 +4,7 @@ using Grupp2MVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Grupp2MVC.Migrations
 {
     [DbContext(typeof(Grupp2MVCContext))]
-    partial class Grupp2MVCContextModelSnapshot : ModelSnapshot
+    [Migration("20240423095100_ReceiptPriceDepartureTimeNullable")]
+    partial class ReceiptPriceDepartureTimeNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
