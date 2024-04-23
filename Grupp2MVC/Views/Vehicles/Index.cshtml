@@ -4,6 +4,18 @@
     ViewData["Title"] = "Garage details";
 }
 
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger" role="alert">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            @error.ErrorMessage
+
+            <br />
+        }
+    </div>
+}
+
 <h1>Garage search</h1>
 <h4>Please click "Park" to park your vehicle again or "Check out" to leave</h4>
 

@@ -139,6 +139,14 @@ namespace Grupp2MVC.Controllers
 
             if (ModelState.IsValid)
             {
+                // Check if the edited registration number already exists for another vehicle
+                var existingVehicle = await _context.Vehicle.FirstOrDefaultAsync(m => m.RegistrationNumber.Equals(vehicle.RegistrationNumber) && m.Id != id);
+                if (existingVehicle != null)
+                {
+                    ModelState.AddModelError(string.Empty, "Vehicle with the same registration number already exists");
+                    return View(vehicle);
+                }
+
                 try
                 {
                     _context.Update(vehicle);
