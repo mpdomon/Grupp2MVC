@@ -2,6 +2,6 @@
 {
     public class Garage
     {
-        public static int Capacity = 100;
+        public static int Capacity = 10;
     }
 }

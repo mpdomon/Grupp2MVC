@@ -81,20 +81,27 @@ namespace Grupp2MVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Check if the vehicle with the given registration number already exists
+                var existingVehicle = await _context.Vehicle.FirstOrDefaultAsync(m => m.RegistrationNumber.Equals(vehicle.RegistrationNumber));
+                if (existingVehicle != null)
+                {
+                    ModelState.AddModelError(string.Empty, "Vehicle with the same registration number already exists");
+                    return View(vehicle);
+                }
+
+                // Parking capacity check
+                var countOfParked = _context.Vehicle.Count(v => v.IsParked);
+                if (countOfParked >= Garage.Capacity)
+                {
+                    ModelState.AddModelError(string.Empty, "Parking spaces are full");
+                    return View(vehicle);
+                }
+
+                // Set time of arrival and mark the vehicle as parked
                 vehicle.TimeOfArrival = DateTime.Now;
                 vehicle.IsParked = true;
 
-                var CountOfParked = _context.Vehicle.Where(v => v.IsParked).Count();
-                if (CountOfParked >= Garage.Capacity) {
-                    return Content("Parking spaces are full");
-                }
-
-                var v = _context.Vehicle.Where(m => m.RegistrationNumber.Equals(vehicle.RegistrationNumber));
-                if (v.IsNullOrEmpty())
-                {
-                    _context.Add(vehicle);
-                }
-              
+                _context.Add(vehicle);
                 var result = await _context.SaveChangesAsync();
                 if (result > 0)
                 {
@@ -107,9 +114,9 @@ namespace Grupp2MVC.Controllers
                     _context.Add(receipt);
                     await _context.SaveChangesAsync();
                 }
-
                 return RedirectToAction(nameof(Index));
             }
+
             return View(vehicle);
         }
 
@@ -143,6 +150,14 @@ namespace Grupp2MVC.Controllers
 
             if (ModelState.IsValid)
             {
+                // Check if the edited registration number already exists for another vehicle
+                var existingVehicle = await _context.Vehicle.FirstOrDefaultAsync(m => m.RegistrationNumber.Equals(vehicle.RegistrationNumber) && m.Id != id);
+                if (existingVehicle != null)
+                {
+                    ModelState.AddModelError(string.Empty, "Vehicle with the same registration number already exists");
+                    return View(vehicle);
+                }
+
                 try
                 {
                     _context.Update(vehicle);
@@ -223,18 +238,26 @@ namespace Grupp2MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ParkAgain(int id)
         {
-            var vehicle = await _context.Vehicle.FindAsync(id);
+            var countOfParked = _context.Vehicle.Count(v => v.IsParked);
+            if (countOfParked >= Garage.Capacity)
+            {
+                ModelState.AddModelError(string.Empty, "Parking spaces are full");
+                var vehicles = await _context.Vehicle.ToListAsync();
+                return View("Index", vehicles); 
+            }
 
+            var vehicle = await _context.Vehicle.FindAsync(id);
             if (vehicle == null)
             {
                 return NotFound();
             }
+
             vehicle.TimeOfArrival = DateTime.Now;
             vehicle.IsParked = true;
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index)); 
         }
 
         [ActionName("ReceiptList")]

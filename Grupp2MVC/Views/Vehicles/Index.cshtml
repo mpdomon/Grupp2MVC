@@ -2,9 +2,25 @@
 
 @{
     ViewData["Title"] = "Garage details";
+    var parkedCount = Model.Count(v => v.IsParked);
+    var capacity = Garage.Capacity; 
 }
 
-<h1>Garage search</h1>
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger" role="alert">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            @error.ErrorMessage
+
+            <br />
+        }
+    </div>
+}
+
+<h1>Garage details</h1>
+<p>Number of parked vehicles: @parkedCount</p>
+<p>Capacity: @capacity</p>
 <h4>Please click "Park" to park your vehicle again or "Check out" to leave</h4>
 
 <form asp-action="Filter" method="get">
