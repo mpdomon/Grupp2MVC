@@ -81,20 +81,25 @@ namespace Grupp2MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                vehicle.TimeOfArrival = DateTime.Now;
-                vehicle.IsParked = true;
-
-                var CountOfParked = _context.Vehicle.Where(v => v.IsParked).Count();
-                if (CountOfParked >= Garage.Capacity) {
+                // Parking capacity check
+                var countOfParked = _context.Vehicle.Count(v => v.IsParked);
+                if (countOfParked >= Garage.Capacity)
+                {
                     return Content("Parking spaces are full");
                 }
 
-                var v = _context.Vehicle.Where(m => m.RegistrationNumber.Equals(vehicle.RegistrationNumber));
-                if (v.IsNullOrEmpty())
+                // Check if the vehicle with the given registration number already exists
+                var existingVehicle = await _context.Vehicle.FirstOrDefaultAsync(m => m.RegistrationNumber.Equals(vehicle.RegistrationNumber));
+                if (existingVehicle != null)
                 {
-                    _context.Add(vehicle);
+                    return Content("Vehicle with the same registration number already exists");
                 }
-              
+
+                // Set time of arrival and mark the vehicle as parked
+                vehicle.TimeOfArrival = DateTime.Now;
+                vehicle.IsParked = true;
+
+                _context.Add(vehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
