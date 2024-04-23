@@ -232,18 +232,26 @@ namespace Grupp2MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ParkAgain(int id)
         {
-            var vehicle = await _context.Vehicle.FindAsync(id);
+            var countOfParked = _context.Vehicle.Count(v => v.IsParked);
+            if (countOfParked >= Garage.Capacity)
+            {
+                ModelState.AddModelError(string.Empty, "Parking spaces are full");
+                var vehicles = await _context.Vehicle.ToListAsync();
+                return View("Index", vehicles); 
+            }
 
+            var vehicle = await _context.Vehicle.FindAsync(id);
             if (vehicle == null)
             {
                 return NotFound();
             }
+
             vehicle.TimeOfArrival = DateTime.Now;
             vehicle.IsParked = true;
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index)); 
         }
 
         [ActionName("ReceiptList")]
