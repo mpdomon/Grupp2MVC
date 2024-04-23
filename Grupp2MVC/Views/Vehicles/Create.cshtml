@@ -1,7 +1,19 @@
 ﻿@model Grupp2MVC.Models.Vehicle
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger" role="alert">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            @error.ErrorMessage
+
+            <br />
+        }
+    </div>
+}
 
 @{
     ViewData["Title"] = "Register";
+
 }
 
 <h1>Register your vehicle</h1>
