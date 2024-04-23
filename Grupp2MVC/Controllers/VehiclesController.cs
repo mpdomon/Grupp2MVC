@@ -16,6 +16,7 @@ namespace Grupp2MVC.Controllers
     {
         private readonly Grupp2MVCContext _context;
 
+  
         public VehiclesController(Grupp2MVCContext context)
         {
             _context = context;
@@ -83,12 +84,17 @@ namespace Grupp2MVC.Controllers
                 vehicle.TimeOfArrival = DateTime.Now;
                 vehicle.IsParked = true;
 
+                var CountOfParked = _context.Vehicle.Where(v => v.IsParked).Count();
+                if (CountOfParked >= Garage.Capacity) {
+                    return Content("Parking spaces are full");
+                }
+
                 var v = _context.Vehicle.Where(m => m.RegistrationNumber.Equals(vehicle.RegistrationNumber));
                 if (v.IsNullOrEmpty())
                 {
                     _context.Add(vehicle);
                 }
-
+              
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
