@@ -12,11 +12,11 @@ namespace Grupp2MVC.Models.ViewModels
         public double Price { get; set; }
         [Display(Name="From")]
         [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString ="{0:yyyy/MM/dd mm:ss}")]
+        [DisplayFormat(DataFormatString ="{0:yyyy/MM/dd HH:mm}")]
         public DateTime TimeOfArrival { get; set; }
         [DataType(DataType.DateTime)]
         [Display(Name="To")]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd mm:ss}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}")]
         public DateTime? TimeOfDeparture { get; set; }
     }
 }

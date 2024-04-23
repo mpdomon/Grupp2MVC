@@ -255,7 +255,19 @@ namespace Grupp2MVC.Controllers
             vehicle.TimeOfArrival = DateTime.Now;
             vehicle.IsParked = true;
 
-            await _context.SaveChangesAsync();
+            //Todo: move to other function
+            var result = await _context.SaveChangesAsync();
+            if (result > 0)
+            {
+                var receipt = new Receipt
+                {
+                    VehicleId = vehicle.Id,
+                    TimeOfArrival = vehicle.TimeOfArrival
+                };
+
+                _context.Add(receipt);
+                await _context.SaveChangesAsync();
+            }
 
             return RedirectToAction(nameof(Index)); 
         }
